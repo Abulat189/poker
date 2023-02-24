@@ -13,13 +13,11 @@ enum suits {
 struct card {
   int suit;
   int value;
-  
   //get char value of card, remember a card can be ten
   char get_value() {
     switch (value) {
       case 1:
         return 'A';
-        cout << "helelelo\n";
       case 10:
         return 'T';
       case 11:
@@ -33,10 +31,12 @@ struct card {
     }
   }
 
-  char char_value = get_value();
+  char char_value;
   
   //print card
   void print() {
+    char_value = get_value();
+    //cout << char_value << " " << value << endl;
     switch (suit) {
       case hearts:
         cout << char_value << "♥";
