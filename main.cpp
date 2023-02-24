@@ -12,45 +12,50 @@ enum suits {
 
 struct card {
   int suit;
-  char char_value;
+  int value;
   
-  int get_value() {
-    switch (char_value) {
-      case 'A':
-        return 1;
-      case 'J':
-        return 11;
-      case 'Q':
-        return 12;
-      case 'K':
-        return 13;
+  //get char value of card, remember a card can be ten
+  char get_value() {
+    switch (value) {
+      case 1:
+        return 'A';
+        cout << "helelelo\n";
+      case 10:
+        return 'T';
+      case 11:
+        return 'J';
+      case 12:
+        return 'Q';
+      case 13:
+        return 'K';
       default:
-        return char_value - '0';
+        return value + '0';
     }
   }
 
-  int value = get_value();
+  char char_value = get_value();
   
+  //print card
   void print() {
     switch (suit) {
       case hearts:
-        cout << "♥";
+        cout << char_value << "♥";
         break;
       case diamonds:
-        cout << "♦";
+        cout << char_value << "♦";
         break;
       case clover:
-        cout << "♣";
+        cout << char_value << "♣";
         break;
       case spades:
-        cout << "♠";
+        cout << char_value << "♠";
         break;
     }
-    cout << value;
   }
 };
 
 int main() {
+  srand (time(NULL));
   int player_count;
   cin >> player_count;
   vector<vector<card>> player;
@@ -65,9 +70,19 @@ int main() {
       deck.push_back(c);
     }
   }
-  
+
+  deck[0].print();
+  cout << endl;
+
+  for(int i = 0; i < deck.size(); i++) {
+    deck[i].print();
+    cout << " ";
+  }
+  cout << endl;
   //shuffle the deck
   random_shuffle(deck.begin(), deck.end());
+
+  
 
   //deal cards to players
   for (int i = 0; i < player_count; i++) {
