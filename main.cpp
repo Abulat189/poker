@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+
 using namespace std;
 
 #pragma execution_character_set("utf-8")
@@ -53,13 +54,7 @@ struct card {
   }
 };
 
-int main() {
-  srand (time(NULL));
-  int player_count;
-  cin >> player_count;
-  vector<vector<card>> player;
-
-  //create a vector with all cards in a deck
+vector<card> create_deck(){
   vector<card> deck;
   for (int i = 0; i < 4; i++) {
     for (int j = 1; j <= 13; j++) {
@@ -69,19 +64,23 @@ int main() {
       deck.push_back(c);
     }
   }
+  return deck;
+}
 
-  deck[0].print();
-  cout << endl;
+int main() {
+  srand (time(NULL));
 
-  for(int i = 0; i < deck.size(); i++) {
-    deck[i].print();
-    cout << " ";
-  }
-  cout << endl;
+
+  //get number of players
+  int player_count;
+  cin >> player_count;
+  vector<vector<card>> player;
+
+  //create a vector with all cards in a deck
+  vector<card> deck = create_deck();
+
   //shuffle the deck
   random_shuffle(deck.begin(), deck.end());
-
-  
 
   //deal cards to players
   for (int i = 0; i < player_count; i++) {
