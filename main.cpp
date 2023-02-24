@@ -36,7 +36,6 @@ struct card {
   //print card
   void print() {
     char_value = get_value();
-    //cout << char_value << " " << value << endl;
     switch (suit) {
       case hearts:
         cout << char_value << "♥";
