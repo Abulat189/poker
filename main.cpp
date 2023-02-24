@@ -54,6 +54,10 @@ struct card {
   }
 };
 
+struct player {
+  vector<card> cards;
+};
+
 vector<card> create_deck(){
   vector<card> deck;
   for (int i = 0; i < 4; i++) {
@@ -67,26 +71,26 @@ vector<card> create_deck(){
   return deck;
 }
 
-vector<vector<card>> deal(vector<card> deck, int player_count){
-  vector<vector<card>> player;
+
+//create a deal function that deals to a vector of players
+vector<player> deal(vector<card> deck, int player_count) {
+  vector<player> players;
   for (int i = 0; i < player_count; i++) {
-    vector<card> p;
-    for (int j = 0; j < 2; j++) {
-      p.push_back(deck.back());
-      deck.pop_back();
-    }
-    player.push_back(p);
+    player p;
+    p.cards.push_back(deck[i * 2]);
+    p.cards.push_back(deck[i * 2 + 1]);
+    players.push_back(p);
   }
-  return player;
+  return players;
 }
 
 int main() {
   srand (time(NULL));
-  
+
   //get number of players
   int player_count;
   cin >> player_count;
-  vector<vector<card>> player;
+  vector<player> players;
 
   //create a vector with all cards in a deck
   vector<card> deck = create_deck();
@@ -95,13 +99,13 @@ int main() {
   random_shuffle(deck.begin(), deck.end());
 
   //deal cards to players
-  player = deal(deck, player_count);
+  players = deal(deck, player_count);
 
   //output the cards of each player
   for (int i = 0; i < player_count; i++) {
     cout << "Player " << i + 1 << ": ";
     for (int j = 0; j < 2; j++) {
-      player[i][j].print();
+      players[i].cards[j].print();
       cout << " ";
     }
     cout << endl;
