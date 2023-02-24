@@ -67,10 +67,22 @@ vector<card> create_deck(){
   return deck;
 }
 
+vector<vector<card>> deal(vector<card> deck, int player_count){
+  vector<vector<card>> player;
+  for (int i = 0; i < player_count; i++) {
+    vector<card> p;
+    for (int j = 0; j < 2; j++) {
+      p.push_back(deck.back());
+      deck.pop_back();
+    }
+    player.push_back(p);
+  }
+  return player;
+}
+
 int main() {
   srand (time(NULL));
-
-
+  
   //get number of players
   int player_count;
   cin >> player_count;
@@ -83,14 +95,7 @@ int main() {
   random_shuffle(deck.begin(), deck.end());
 
   //deal cards to players
-  for (int i = 0; i < player_count; i++) {
-    vector<card> p;
-    for (int j = 0; j < 2; j++) {
-      p.push_back(deck.back());
-      deck.pop_back();
-    }
-    player.push_back(p);
-  }
+  player = deal(deck, player_count);
 
   //output the cards of each player
   for (int i = 0; i < player_count; i++) {
