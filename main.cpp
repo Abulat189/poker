@@ -52,10 +52,68 @@ struct card {
         break;
     }
   }
+
+  int hash() {
+    return suit * 13 + value;
+  }
 };
 
 struct player {
   vector<card> cards;
+  vector<card> center;
+
+  vector<card> all;
+
+  void printcenter() {
+    for (int i = 0; i < center.size(); i++) {
+      center[i].print();
+      cout << " ";
+    }
+    cout << endl;
+  }
+
+  int score;
+  //check for poker winning conditions with cards and center
+  int check() {
+    for(int i = 0; i < cards.size(); i++){
+      all.push_back(cards[i]);
+    }
+    for(int i = 0; i < center.size(); i++){
+      all.push_back(center[i]);
+    }
+
+    for(int i = 0; i < all.size(); i++){
+      for(int j = i; j < all.size(); j++){
+        if(all[i].hash() == all[j].hash()){
+          return 1;
+        }
+      }
+    }
+    //check for royal flush
+    //check for straight flush
+    //check for four of a kind
+    //check for full house
+    //check for flush
+    //check for straight
+    //check for three of a kind
+    //check for two pair
+    //check for one pair
+    //check for high card
+    return 0;
+  }
+
+  //print cards and center
+  void print() {
+    for (int i = 0; i < cards.size(); i++) {
+      cards[i].print();
+      cout << " ";
+    }
+    for (int i = 0; i < center.size(); i++) {
+      center[i].print();
+      cout << " ";
+    }
+    cout << endl;
+  }
 };
 
 vector<card> create_deck(){
@@ -71,8 +129,6 @@ vector<card> create_deck(){
   return deck;
 }
 
-
-//create a deal function that deals to a vector of players
 vector<player> deal(vector<card> deck, int player_count) {
   vector<player> players;
   for (int i = 0; i < player_count; i++) {
@@ -82,6 +138,8 @@ vector<player> deal(vector<card> deck, int player_count) {
     players.push_back(p);
   }
   return players;
+
+
 }
 
 int main() {
@@ -102,6 +160,28 @@ int main() {
   players = deal(deck, player_count);
 
   //output the cards of each player
+
+  while(true){
+    //add three cards to the center
+    for (int i = 0; i < 3; i++) {
+      for (int j = 0; j < player_count; j++) {
+        players[j].center.push_back(deck[player_count * 2 + i]);
+      }
+    }
+    players[0].printcenter();
+    //check if any player has a winning hand
+    for (int i = 0; i < player_count; i++) {
+      if(players[i].check()) {
+        players[i].print();
+        return 0;
+      }
+    }
+    //if no player has a winning hand, add one card to the center
+    for (int i = 0; i < player_count; i++) {
+      players[i].center.push_back(deck[player_count * 2 + 3]);
+    }  
+  }
+
   for (int i = 0; i < player_count; i++) {
     cout << "Player " << i + 1 << ": ";
     for (int j = 0; j < 2; j++) {
