@@ -62,7 +62,7 @@ struct player {
   vector<card> cards;
   vector<card> center;
 
-  vector<card> all;
+  multiset<card> all;
 
   void printcenter() {
     for (int i = 0; i < center.size(); i++) {
@@ -73,22 +73,34 @@ struct player {
   }
 
   int score;
-  //check for poker winning conditions with cards and center
+  
   int check() {
     for(int i = 0; i < cards.size(); i++){
-      all.push_back(cards[i]);
+      all.insert(cards[i]);
     }
     for(int i = 0; i < center.size(); i++){
-      all.push_back(center[i]);
+      all.insert(center[i]);
     }
 
-    for(int i = 0; i < all.size(); i++){
-      for(int j = i; j < all.size(); j++){
-        if(all[i].hash() == all[j].hash()){
-          return 1;
+    //write a snippet to check if there are three same elements in the vector all
+    //if there are three same elements, then the player has a three of a kind
+    for(int i = 1; i <= 13; i++){
+      int count = 0;
+      for(auto it = all.begin(); it != all.end(); it++){
+        if(it->value == i){
+          count++;
         }
       }
+      if(count == 3){
+        cout << "Three of a kind" << endl;
+        return 1;
+      }
     }
+    
+
+
+
+    
     //check for royal flush
     //check for straight flush
     //check for four of a kind
@@ -161,6 +173,15 @@ int main() {
 
   //output the cards of each player
 
+  for (int i = 0; i < player_count; i++) {
+    cout << "Player " << i + 1 << ": ";
+    for (int j = 0; j < 2; j++) {
+      players[i].cards[j].print();
+      cout << " ";
+    }
+    cout << endl;
+  }
+
   while(true){
     //add three cards to the center
     for (int i = 0; i < 3; i++) {
@@ -182,14 +203,7 @@ int main() {
     }  
   }
 
-  for (int i = 0; i < player_count; i++) {
-    cout << "Player " << i + 1 << ": ";
-    for (int j = 0; j < 2; j++) {
-      players[i].cards[j].print();
-      cout << " ";
-    }
-    cout << endl;
-  }
+  
   
   return 0;
 }
